@@ -151,6 +151,8 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
     public var allowRightSwipe : Bool = true
     public var allowPanGesture : Bool = true
     private var panRecognizer : UIPanGestureRecognizer?
+
+    private var outterView: UIView = UIView()
     
     /**
     Initializes an instance of a `ENSideMenu` object.
@@ -192,6 +194,15 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
             sideMenuContainerView.addGestureRecognizer(rightSwipeGestureRecognizer)
             sourceView.addGestureRecognizer(leftSwipeGestureRecognizer)
         }
+
+        outterView = UIView(frame: CGRectMake(sideMenuContainerView.frame.width, 0,
+            sourceView.frame.width - sideMenuContainerView.frame.width,
+            sourceView.frame.height))
+        outterView.backgroundColor = UIColor.clearColor()
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: "hideSideMenu")
+        outterView.addGestureRecognizer(tapRecognizer)
+        outterView.userInteractionEnabled = false
+        sourceView.addSubview(outterView)
         
     }
     /**
@@ -277,6 +288,9 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
     }
     
     private func toggleMenu (shouldOpen: Bool) {
+
+        outterView.userInteractionEnabled = shouldOpen
+
         if (shouldOpen && delegate?.sideMenuShouldOpenSideMenu?() == false) {
             return
         }
