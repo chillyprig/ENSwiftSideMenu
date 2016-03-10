@@ -153,6 +153,7 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
     private var panRecognizer : UIPanGestureRecognizer?
 
     private var outterView: UIView = UIView()
+
     /**
      Initializes an instance of a `ENSideMenu` object.
 
@@ -202,6 +203,7 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
         outterView.addGestureRecognizer(tapRecognizer)
         outterView.userInteractionEnabled = false
         sourceView.addSubview(outterView)
+
     }
     /**
      Initializes an instance of a `ENSideMenu` object.
@@ -286,6 +288,9 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
     }
 
     private func toggleMenu (shouldOpen: Bool) {
+
+        outterView.userInteractionEnabled = shouldOpen
+
         if (shouldOpen && delegate?.sideMenuShouldOpenSideMenu?() == false) {
             return
         }
