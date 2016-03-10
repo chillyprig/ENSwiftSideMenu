@@ -46,8 +46,8 @@ public extension UIViewController {
     /**
      Hides the side menu view.
      */
-    public func hideSideMenuView (onCompletion: (() -> Void)?) {
-        sideMenuController()?.sideMenu?.hideSideMenu(onCompletion)
+    public func hideSideMenuView () {
+        sideMenuController()?.sideMenu?.hideSideMenu()
     }
     /**
      Shows the side menu view.
@@ -501,13 +501,9 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
     /**
      Hides the side menu if the menu is showed.
      */
-    public func hideSideMenu (onCompletion: (() -> Void)?) {
+    public func hideSideMenu () {
         if (isMenuOpen) {
             toggleMenu(false)
-
-            if onCompletion != nil {
-                onCompletion!()
-            }
         }
     }
 }
