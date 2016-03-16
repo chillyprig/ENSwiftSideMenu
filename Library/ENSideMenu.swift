@@ -255,9 +255,7 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
         )
         sideMenuContainerView.frame = menuFrame
 
-        outterView.frame = CGRectMake(sideMenuContainerView.frame.size.width, 0,
-            sourceView.frame.width - sideMenuContainerView.frame.size.width,
-            sourceView.frame.height)
+        updateOutterMenuFrame()
     }
 
     private func adjustFrameDimensions( width: CGFloat, height: CGFloat ) -> (CGFloat,CGFloat) {
@@ -524,9 +522,15 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
             toggleMenu(false)
         }
     }
-    
+
     public func rotated() {
-        updateFrame()
+        updateOutterMenuFrame()
+    }
+
+    public func updateOutterMenuFrame() {
+        outterView.frame = CGRectMake(sideMenuContainerView.frame.size.width, 0,
+            sourceView.frame.width - sideMenuContainerView.frame.size.width,
+            sourceView.frame.height)
     }
 }
 
