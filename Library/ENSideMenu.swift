@@ -129,6 +129,7 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
             needUpdateApperance = true
             updateSideMenuApperanceIfNeeded()
             updateFrame()
+            print(menuWidth)
         }
     }
     private var menuPosition:ENSideMenuPosition = .Left
@@ -164,6 +165,14 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
      */
     public init(sourceView: UIView, menuPosition: ENSideMenuPosition, blurStyle: UIBlurEffectStyle = .Light) {
         super.init()
+
+        NSNotificationCenter.defaultCenter().addObserver(
+            self,
+            selector: "rotated",
+            name: UIDeviceOrientationDidChangeNotification,
+            object: nil
+        )
+
         self.sourceView = sourceView
         self.menuPosition = menuPosition
         self.blurStyle = blurStyle
@@ -195,8 +204,8 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
             sourceView.addGestureRecognizer(leftSwipeGestureRecognizer)
         }
 
-        outterView = UIView(frame: CGRectMake(sideMenuContainerView.frame.width, 0,
-            sourceView.frame.width - sideMenuContainerView.frame.width,
+        outterView = UIView(frame: CGRectMake(sideMenuContainerView.frame.size.width, 0,
+            sourceView.frame.width - sideMenuContainerView.frame.size.width,
             sourceView.frame.height))
         outterView.backgroundColor = UIColor.clearColor()
         let tapRecognizer = UITapGestureRecognizer(target: self, action: "hideSideMenu")
@@ -245,6 +254,10 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
             height
         )
         sideMenuContainerView.frame = menuFrame
+
+        outterView.frame = CGRectMake(sideMenuContainerView.frame.size.width, 0,
+            sourceView.frame.width - sideMenuContainerView.frame.size.width,
+            sourceView.frame.height)
     }
 
     private func adjustFrameDimensions( width: CGFloat, height: CGFloat ) -> (CGFloat,CGFloat) {
@@ -511,6 +524,10 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
             toggleMenu(false)
         }
     }
+    
+    public func rotated() {
+        updateFrame()
+    }
 }
 
 extension ENSideMenu: UIDynamicAnimatorDelegate {
@@ -521,7 +538,7 @@ extension ENSideMenu: UIDynamicAnimatorDelegate {
             self.delegate?.sideMenuDidClose?()
         }
     }
-
+    
     public func dynamicAnimatorWillResume(animator: UIDynamicAnimator) {
         print("resume")
     }
