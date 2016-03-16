@@ -310,6 +310,11 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
         var width:CGFloat
         var height:CGFloat
         (width, height) = adjustFrameDimensions( sourceView.frame.size.width, height: sourceView.frame.size.height)
+        if UIDevice.currentDevice().orientation == UIDeviceOrientation.Portrait {
+            if sideMenuContainerView.frame.size.height != height {
+                sideMenuContainerView.frame.size.height = height
+            }
+        }
         if (bouncingEnabled) {
 
             animator.removeAllBehaviors()
@@ -383,6 +388,8 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
         } else {
             delegate?.sideMenuWillClose?()
         }
+
+        print(sideMenuContainerView.frame)
     }
 
     public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
