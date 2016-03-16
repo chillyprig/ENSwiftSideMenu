@@ -536,8 +536,29 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
 
     public func updateOutterMenuFrame() {
         outterView.frame = CGRectMake(sideMenuContainerView.frame.size.width, 0,
-            sourceView.frame.width - sideMenuContainerView.frame.size.width,
-            sourceView.frame.height)
+            sourceView.frame.size.width - sideMenuContainerView.frame.size.width,
+            sourceView.frame.size.height)
+    }
+
+    public func updateOutterMenuFrame(frame: CGRect) {
+        print(frame)
+        var width = frame.size.width
+        var height = frame.size.height
+
+        if UIDevice.currentDevice().orientation == UIDeviceOrientation.Portrait {
+            if (frame.size.width > frame.size.height) {
+                width = frame.size.height
+                height = frame.size.width
+            }
+        } else {
+            if (frame.size.width < frame.size.height) {
+                width = frame.size.height
+                height = frame.size.width
+            }
+        }
+        outterView.frame = CGRectMake(sideMenuContainerView.frame.size.width, 0,
+            width - sideMenuContainerView.frame.size.width,
+            height)
     }
 }
 
