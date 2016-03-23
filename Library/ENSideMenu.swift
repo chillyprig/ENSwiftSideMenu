@@ -129,7 +129,7 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
             needUpdateApperance = true
             updateSideMenuApperanceIfNeeded()
             updateFrame()
-            print(menuWidth)
+            //            print(menuWidth)
         }
     }
     private var menuPosition:ENSideMenuPosition = .Left
@@ -245,6 +245,17 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
         var width:CGFloat
         var height:CGFloat
         (width, height) = adjustFrameDimensions( sourceView.frame.size.width, height: sourceView.frame.size.height)
+        if UIDevice.currentDevice().orientation == UIDeviceOrientation.Portrait {
+            if (sourceView.frame.size.width > sourceView.frame.size.height) {
+                width = sourceView.frame.size.height
+                height = sourceView.frame.size.width
+            }
+        } else {
+            if (sourceView.frame.size.width < sourceView.frame.size.height) {
+                width = sourceView.frame.size.height
+                height = sourceView.frame.size.width
+            }
+        }
         let menuFrame = CGRectMake(
             (menuPosition == .Left) ?
                 isMenuOpen ? 0 : -menuWidth-1.0 :
@@ -389,7 +400,6 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
             delegate?.sideMenuWillClose?()
         }
 
-        print(sideMenuContainerView.frame)
     }
 
     public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
@@ -532,6 +542,15 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
 
     public func rotated() {
         updateOutterMenuFrame()
+
+        if isMenuOpen {
+            if UIDevice.currentDevice().orientation == UIDeviceOrientation.Portrait {
+                if UIScreen.mainScreen().bounds.size.height > sideMenuContainerView.frame.size.height {
+                    toggleMenu(true)
+                    print("IN");
+                }
+            }
+        }
     }
 
     public func updateOutterMenuFrame() {
@@ -541,7 +560,7 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
     }
 
     public func updateOutterMenuFrame(frame: CGRect) {
-        print(frame)
+        //        print(frame)
         var width = frame.size.width
         var height = frame.size.height
 
@@ -572,7 +591,7 @@ extension ENSideMenu: UIDynamicAnimatorDelegate {
     }
     
     public func dynamicAnimatorWillResume(animator: UIDynamicAnimator) {
-        print("resume")
+        //        print("resume")
     }
 }
 
