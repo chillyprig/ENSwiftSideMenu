@@ -245,7 +245,7 @@ public class ENSideMenu : NSObject, UIGestureRecognizerDelegate {
         var width:CGFloat
         var height:CGFloat
         (width, height) = adjustFrameDimensions( sourceView.frame.size.width, height: sourceView.frame.size.height)
-        if UIDevice.currentDevice().orientation == UIDeviceOrientation.Portrait {
+        if UIDevice.currentDevice().orientation == UIDeviceOrientation.Portrait || UIDevice.currentDevice().orientation == UIDeviceOrientation.FaceUp || UIDevice.currentDevice().orientation == UIDeviceOrientation.FaceDown {
             if (sourceView.frame.size.width > sourceView.frame.size.height) {
                 width = sourceView.frame.size.height
                 height = sourceView.frame.size.width
